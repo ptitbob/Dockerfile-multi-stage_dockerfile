@@ -13,4 +13,5 @@ FROM openjdk:8-jdk-alpine as run
 ARG version
 WORKDIR /root/
 COPY --from=builder /usr/src/mymaven/app/target/pingserver-$version.jar /root/pingserver.jar
+EXPOSE 8080
 CMD java -jar pingserver.jar
