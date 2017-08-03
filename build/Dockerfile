@@ -5,13 +5,12 @@ RUN apk --update add git openssh && \
     rm -rf /var/lib/apt/lists/* && \
     rm /var/cache/apk/*
 WORKDIR /usr/src/mymaven
-RUN git clone -b $version https://github.com/ptitbob/Dockerfile-multi-stage_server.git app
-RUN mvn -f /usr/src/mymaven/app/pom.xml clean package
+RUN git clone -b $version https://github.com/ptitbob/Dockerfile-multi-stage_server.git app && \
+    mvn -f /usr/src/mymaven/app/pom.xml clean package
 
 # Image final prévu pour l'execution du serveur
-FROM openjdk:8u131-jre-alpine as run
+FROM openjdk:8-jdk-alpine as run
 ARG version
-ENV JAR_BUILDED  /usr/src/mymaven/app/target/pingserver-$version.jar
 WORKDIR /root/
 COPY --from=builder /usr/src/mymaven/app/target/pingserver-$version.jar /root/pingserver.jar
 CMD java -jar pingserver.jar
