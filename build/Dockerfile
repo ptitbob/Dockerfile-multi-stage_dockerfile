@@ -1,5 +1,5 @@
 # Image / container de build
-FROM maven:3.5.0-jdk-8 as builder
+FROM maven:3.5-jdk-8-alpine as builder
 ARG version
 ENV version ${version:-1.0.0}
 WORKDIR /usr/src/mymaven
